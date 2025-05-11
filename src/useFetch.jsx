@@ -1,32 +1,38 @@
 import { useState, useEffect } from "react";
 
 const useFetch = () => {
-      // const {data, isPending} = useFetch()
-    const [data, setData] = useState(null);
-    const [isPending, setIsPending] = useState(true);
-    const [city, setCity] = useState([])
-    // const API_KEY = "49e70472fb0fb3c11706ed617cb17a88";
-    
-    useEffect(() => {
-      const locations = ["lagos", "abuja", "london", "texas", "sydney", "accra", "hongkong", "nairobi"];
-      locations.map(() => {
-      // const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
-      fetch("./src/Weather.json")
-      .then((response) => response.json())
-      .then((coords) => {
-        setCity(locations)
-      setData(coords);
-      setIsPending(false);
-      console.log(coords);
-      // return <h1>${coords.main.temp - 273.15}</h1>
-      // <p>${coords.weather[0].main}</p>
-    });
-    
+  const [data, setData] = useState([]);
+  const [isPending, setIsPending] = useState(true);
+  const [cities] = useState(["lagos", "abuja", "london", "texas", "sydney", "accra", "hongkong", "nairobi"]);
+  const API_KEY = "49e70472fb0fb3c11706ed617cb17a88";
+ 
+  
 
-    });
-}, [])
-    
-  return { data, isPending, city };
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsPending(true);
+
+      try {
+        // Simulate fetching for multiple cities (in this case from a local JSON)
+        const requests = cities.map( city => 
+         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`)
+         .then((res) => res.json())
+         )
+         
+         const results = await Promise.all(requests);
+        setData(results);
+      } catch (err) {
+        console.error("Failed to fetch:", err);
+        setData([]);
+      } finally {
+        setIsPending(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return [data, isPending ];
 };
 
 export default useFetch;
