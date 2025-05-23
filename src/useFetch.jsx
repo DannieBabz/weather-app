@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 
+
 const useFetch = () => {
   const [data, setData] = useState([]);
   const [isPending, setIsPending] = useState(true);
   const [cities] = useState(["lagos", "abuja", "london", "texas", "sydney", "accra", "hongkong", "nairobi"]);
-  const API_KEY = "49e70472fb0fb3c11706ed617cb17a88";
+  const API_KEY = import.meta.env.VITE_API_KEY;
  
   
 

@@ -12,7 +12,8 @@ export default function App() {
   const [searchData, setSearchData] = useState({})
   
 
-  const API_KEY = "1729363e24cca0d7516fa7cfd634c5e4";
+  const API_KEY = import.meta.env.VITE_API_KEY;
+  
   const latDegrees= Math.round(location.lat)
   const longDegrees = Math.floor(location.long)
   
