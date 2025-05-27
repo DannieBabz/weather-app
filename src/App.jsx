@@ -1,15 +1,18 @@
 import CurrentWeather from "./CurrentWeather";
 import Widgets from "./Widgets";
 import Search from './Search'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import debounce from 'lodash.debounce';
+
 // import { DmsCoordinates } from "dms-conversion";
 
 
 export default function App() {
   const [location, setLocation] = useState({})
   const [search, setSearch] = useState()
-  const [data, setData] = useState({})
   const [searchData, setSearchData] = useState({})
+  const [data, setData] = useState({})
+  const [value, setInputValue] = useState({})
   
 
   const API_KEY = import.meta.env.VITE_API_KEY;
@@ -20,9 +23,12 @@ export default function App() {
   let cardinal1 = latDegrees >= 0 ? 'N' : 'S';
   let cardinal2 = longDegrees >= 0 ? 'E' : 'W';
 
-const handleSearch = (e) => {
-  setSearch(e.target.value)
-}
+const handleSearch = useCallback(
+  debounce((value) => {
+    setSearch(value);
+  }, 100), // adjust delay as needed
+  []
+)
 
 
   useEffect(() => {
@@ -65,7 +71,7 @@ const handleSearch = (e) => {
     <div className="flex m-auto font-heading">
       <div className="flex w-3/4">
       <h1 className="text-white w-5 m-auto text-7xl">Weather App</h1>
-      <input type="text" id="search" value={search} onChange={handleSearch} className="m-auto p-5 h-5 w-96 rounded-full focus:outline-none" placeholder="Search City, State, etc" />
+      <input type="text" id="search" value={search} onChange={(e) => handleSearch(e.target.value)} className="m-auto p-5 h-5 w-96 rounded-full focus:outline-none" placeholder="Search City, State, etc" />
 
       </div>
       <Search searchData={searchData} />
