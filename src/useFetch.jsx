@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 const useFetch = () => {
   const [data, setData] = useState([]);
   const [isPending, setIsPending] = useState(true);
-  const [cities] = useState(["lagos", "abuja", "london", "texas", "sydney", "accra", "hongkong", "nairobi"]);
+  const [cities] = useState(["lagos", "london", "texas", "sydney", "cairo", "paris", "rome", "moscow", "tokyo", "beijing",  "singapore", "dubai"]);
   const API_KEY = import.meta.env.VITE_API_KEY;
  
   

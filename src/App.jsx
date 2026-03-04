@@ -12,7 +12,6 @@ export default function App() {
   const [search, setSearch] = useState()
   const [searchData, setSearchData] = useState({})
   const [data, setData] = useState({})
-  const [value, setInputValue] = useState({})
   
 
   const API_KEY = import.meta.env.VITE_API_KEY;
@@ -50,7 +49,7 @@ const handleSearch = useCallback(
       })
       .catch((err) => console.error("Fetch error:", err));
   }
-    }, [search])
+    }, [API_KEY, search]) // Depend on `search` change
   
   
 
@@ -67,19 +66,19 @@ const handleSearch = useCallback(
     }
   }, [location]); // Depend on `location` change
   return (
-    <>
-    <div className="flex m-auto font-heading">
-      <div className="flex w-3/4">
-      <h1 className="text-white w-5 m-auto text-7xl">Weather App</h1>
+    <section className="max-w-7xl overflow-y-auto bg-scroll mx-auto px-4">
+    <div className="flex font-heading">
+      <div className="flex justify-between items-center mx-auto gap-x-8">
+      <h1 className="text-white mx-auto w-80 text-7xl">Weather App</h1>
       <input type="text" id="search" value={search} onChange={(e) => handleSearch(e.target.value)} className="m-auto p-5 h-5 w-96 rounded-full focus:outline-none" placeholder="Search City, State, etc" />
-
-      </div>
       <Search searchData={searchData} />
       <CurrentWeather lat={latDegrees} lon={longDegrees} cardinal1={cardinal1} cardinal2={cardinal2} data={data}/>
+
       </div>
-    <div className="mt-20 ml-20 font-heading">
+      </div>
+    <div className="overflow-y-auto font-heading">
       <Widgets/>
     </div>
-    </>
+    </section>
   )
 }
